@@ -6,7 +6,7 @@ import FeedbackHandler from '../../components/utilities/FeedbackHandler';
 import { useAuth } from '../../context/AuthContext';
 
 
-export default function SignInScreen() {
+export default function SignInScreen({ navigation }) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
@@ -14,6 +14,7 @@ export default function SignInScreen() {
     const [message, setMessage] = useState({ status: '', data: '' })
     const auth = useAuth();
     async function signIn() {
+        console.log('login')
         setLoading(true);
         setMessage({ status: '', data: '' })
         await auth.signIn(email, password)
@@ -58,7 +59,7 @@ export default function SignInScreen() {
                             <TouchableWithoutFeedback>
                                 <Text style={{ color: colors.primary }}>Reset password</Text>
                             </TouchableWithoutFeedback>
-                            <TouchableWithoutFeedback>
+                            <TouchableWithoutFeedback onPress={() => navigation.navigate('create_account')}>
                                 <Text style={{ color: colors.primary }}>Create Account</Text>
                             </TouchableWithoutFeedback>
                         </View>
