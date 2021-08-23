@@ -4,8 +4,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
-import { HomeScreenStackNavigator } from '../StackNavigation/HomeScreenStack';
-import { DiscoverScreenStackNavigator } from '../StackNavigation/DiscoverScreenStack';
+import HomeScreenStackNavigator from '../StackNavigation/HomeScreenStack';
+import DiscoverScreenStackNavigator from '../StackNavigation/DiscoverScreenStack';
 
 const Tab = createBottomTabNavigator();
 

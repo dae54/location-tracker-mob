@@ -7,7 +7,7 @@ import HomeScreen from "../../../screens/Home";
 
 const Stack = createStackNavigator();
 
-const HomeScreenStackNavigator = () => {
+export default function HomeScreenStackNavigator() {
   const screenOptions = {
     headerStyle: {
       backgroundColor: "#9AC4F8",
@@ -24,5 +24,3 @@ const HomeScreenStackNavigator = () => {
     </Stack.Navigator>
   );
 }
-
-export { HomeScreenStackNavigator };
