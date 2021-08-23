@@ -2,7 +2,11 @@ package com.location_aware;
 
 import com.facebook.react.ReactActivity;
 import android.os.Bundle;
-
+// import com.airbnb.android.react.maps.MapsPackage;
+//  import java.util.List;
+//  import java.util.Arrays;
+//  import com.facebook.react.shell.MainReactPackage;
+//  import com.facebook.react.ReactPackage;
 public class MainActivity extends ReactActivity {
 
   /**
@@ -18,4 +22,12 @@ public class MainActivity extends ReactActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(null);
   }
+
+  // @Override
+  // protected List<ReactPackage> getPackages() {
+  //   return Arrays.<ReactPackage>asList(
+  //     new MainReactPackage(),
+  //     new MapsPackage()
+  //   );
+  // }
 }
