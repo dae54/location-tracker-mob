@@ -6,10 +6,13 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 import HomeScreenStackNavigator from '../StackNavigation/HomeScreenStack';
 import DiscoverScreenStackNavigator from '../StackNavigation/DiscoverScreenStack';
+import { useTabBarVisibility } from '../../../context/NavigationContext';
 
 const Tab = createBottomTabNavigator();
 
 export default function BottomTabNavigator() {
+    const { tabBarVisible } = useTabBarVisibility()
+
     return (
         <Tab.Navigator >
             <Tab.Screen
@@ -32,12 +35,16 @@ export default function BottomTabNavigator() {
                 }
             />
             <Tab.Screen
-                name="Discover"
+                name="Assistance"
                 component={DiscoverScreenStackNavigator}
                 options={
                     {
                         tabBarHideOnKeyboard: true,
                         headerShown: false,
+                        tabBarStyle: {
+                            display: tabBarVisible ? 'flex' : 'none'
+                        },
+                        unmountOnBlur: true,
                         tabBarIcon: ({ size, color }) => {
                             return (
                                 <MaterialCommunityIcons
