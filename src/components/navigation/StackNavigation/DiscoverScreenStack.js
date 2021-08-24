@@ -1,8 +1,12 @@
-import React from "react";
+import React from 'react'
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { createStackNavigator } from "@react-navigation/stack";
 
-import Assistance from "../../../screens/Assistance";
+import AllQuestions from '../../../screens/Assistance/AllQuestions'
+import MyQuestions from '../../../screens/Assistance/MyQuestions'
+import QuestionProfile from '../../../screens/Assistance/MyQuestions/QuestionProfile'
 
+const Tab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
 
 export default function AssistanceScreenStackNavigator() {
@@ -16,9 +20,18 @@ export default function AssistanceScreenStackNavigator() {
     }
     return (
         <Stack.Navigator screenOptions={screenOptions}>
-            <Stack.Screen options={{ headerShown: false }} name="stock" component={Assistance} />
-            {/* <Stack.Screen name="product_profile" options={{ headerTitle: 'Product Profile', headerTitleStyle: { color: 'black' }, headerShown: false }} component={ProductScreen} /> */}
-            {/* <Stack.Screen name="register_product" options={{ headerTitle: 'Register Product', headerTitleStyle: { color: 'black' } }} component={RegisterProduct} /> */}
+            <Stack.Screen options={{ headerShown: false }} name="assist" component={TopNavigator} />
+            <Stack.Screen options={{ headerShown: false }} name="question_profile" component={QuestionProfile} />
         </Stack.Navigator>
     );
+}
+
+
+function TopNavigator() {
+    return (
+        <Tab.Navigator>
+            <Tab.Screen name="My Questions" component={MyQuestions} />
+            <Tab.Screen name="All Questions" component={AllQuestions} />
+        </Tab.Navigator>
+    )
 }
