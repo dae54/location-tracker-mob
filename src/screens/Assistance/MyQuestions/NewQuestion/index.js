@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Modal, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
+import { Button, KeyboardAvoidingView, Modal, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
+import EditPreview from './EditPreview'
 
 export default function NewQuestion({ modalVisible, setModalVisible, navigation }) {
     const [title, setTitle] = useState('')
@@ -30,7 +31,7 @@ export default function NewQuestion({ modalVisible, setModalVisible, navigation 
             onRequestClose={() => {
                 setModalVisible(false);
             }}>
-            <View
+            <ScrollView
                 style={{
                     position: 'absolute',
                     width: '100%',
@@ -49,24 +50,29 @@ export default function NewQuestion({ modalVisible, setModalVisible, navigation 
                     </View>
                     <View style={{ paddingBottom: 10 }}>
                         <Text style={{ fontWeight: 'bold' }}>Title</Text>
-                        <TextInput style={{ borderWidth: 1, borderColor: '#C0C0C0', color: 'black', paddingHorizontal: 4, paddingVertical: 0 }} multiline placeholderTextColor='gray' placeholder='Enter a short, yet descriptive question title' numberOfLines={3} maxLength={150} value={title} onChangeText={(text) => setTitle(text)} />
+                        <KeyboardAvoidingView>
+                            <TextInput style={{ borderWidth: 1, borderColor: '#C0C0C0', color: 'black', paddingHorizontal: 4, paddingVertical: 0 }} multiline placeholderTextColor='gray' placeholder='Enter a short, yet descriptive question title' numberOfLines={3} maxLength={150} value={title} onChangeText={(text) => setTitle(text)} />
+                        </KeyboardAvoidingView>
                         <Text style={{ color: '#C0C0C0', fontSize: 12, alignSelf: 'flex-end' }}>{title.length}/150</Text>
 
                         <Text style={{ fontWeight: 'bold' }}>Body</Text>
-                        <Text style={{ fontStyle: 'italic', color: '#C0C0C0' }}>Describe your question fully here</Text>
-                        <TextInput style={{ borderWidth: 1, borderColor: '#C0C0C0', color: 'black', minHeight: 100, maxHeight: 150, textAlign: 'justify', textAlignVertical: 'top' }} placeholderTextColor='gray' placeholder='' multiline value={body} onChangeText={(text) => setBody(text)} />
+                        <KeyboardAvoidingView>
+                            <Text style={{ fontStyle: 'italic', color: '#C0C0C0' }}>Describe your question fully here. Markdown tags are allowed</Text>
+                            <EditPreview value={body} setValue={setBody} />
+                        </KeyboardAvoidingView>
 
                         <Text>Tags</Text>
                         <Text style={{ fontStyle: 'italic', color: '#C0C0C0' }}>Tags helps to categorize your question for easy assistance. Provide up to 10 comma separated tags describing your question</Text>
-                        <TextInput style={{ borderWidth: 1, borderColor: '#C0C0C0', color: 'black', paddingHorizontal: 4, paddingVertical: 0 }} multiline placeholderTextColor='gray' placeholder='e.g. Javascript, MongoDB, mysql, database' numberOfLines={3} maxLength={150} value={tagString} onChangeText={(text) => setTagString(text.trimEnd())} />
-                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginVertical: 10 }}>
-                            {tags.map(tag => {
-                                return (
-                                    <Text style={{ backgroundColor: '#e1ecf4', color: '#6389c5', marginHorizontal: 5, padding: 5, borderRadius: 7 }}>{tag}</Text>
-                                )
-                            })}
-                        </View>
-
+                        <KeyboardAvoidingView>
+                            <TextInput style={{ borderWidth: 1, borderColor: '#C0C0C0', color: 'black', paddingHorizontal: 4, paddingVertical: 0 }} multiline placeholderTextColor='gray' placeholder='e.g. Javascript, MongoDB, mysql, database' numberOfLines={3} maxLength={150} value={tagString} onChangeText={(text) => setTagString(text.replace(/ +(?= )/g, ''))} />
+                            <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginVertical: 10 }}>
+                                {tags.map(tag => {
+                                    return (
+                                        <Text style={{ backgroundColor: '#e1ecf4', color: '#6389c5', marginHorizontal: 5, padding: 5, borderRadius: 7 }}>{tag}</Text>
+                                    )
+                                })}
+                            </View>
+                        </KeyboardAvoidingView>
                         <Text>Attachments</Text>
                         <Text style={{ fontStyle: 'italic', color: '#C0C0C0' }}>Attach images, screenshots or links describing your problem</Text>
 
@@ -75,7 +81,7 @@ export default function NewQuestion({ modalVisible, setModalVisible, navigation 
 
                 </View>
 
-            </View>
+            </ScrollView>
         </Modal>
     )
 }
