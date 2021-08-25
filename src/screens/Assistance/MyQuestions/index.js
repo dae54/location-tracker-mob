@@ -4,10 +4,13 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import FAB from '../../../components/reusables/FAB'
 import colors from '../../../components/utilities/Colors'
+import NewQuestion from './NewQuestion'
 import QuestionListTile from './QuestionListTile'
 
 export default function MyQuestions({ navigation }) {
     const [questions, setQuestions] = useState({ loading: false, data: Array.from('daniel amani') })
+
+    const [modalVisible, setModalVisible] = useState(false)
 
     return (
         <View style={styles.container}>
@@ -29,9 +32,10 @@ export default function MyQuestions({ navigation }) {
                 />
             </View>
             <TouchableNativeFeedback activeOpacity={0.8}
-                onPress={() => console.log('clicked')}>
+                onPress={() => setModalVisible(true)}>
                 <View style={styles.touchableOpacityStyle}>
                     <AntDesign name='plus' size={30} color={colors.light} />
+                    <NewQuestion modalVisible={modalVisible} setModalVisible={setModalVisible} />
                 </View>
             </TouchableNativeFeedback>
         </View>
