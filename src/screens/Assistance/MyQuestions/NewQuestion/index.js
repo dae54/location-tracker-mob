@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Button, KeyboardAvoidingView, Modal, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
+import { useQuestions } from '../../../../context/QuestionsContext'
 import EditPreview from './EditPreview'
 
 export default function NewQuestion({ modalVisible, setModalVisible, navigation }) {
@@ -8,6 +9,7 @@ export default function NewQuestion({ modalVisible, setModalVisible, navigation 
     const [body, setBody] = useState('')
     const [tags, setTags] = useState([])
 
+    const { createQuestion } = useQuestions()
     // Effect to extract tags from tagstring
     useEffect(() => {
         // Extract tags from a comma separated text
@@ -21,6 +23,12 @@ export default function NewQuestion({ modalVisible, setModalVisible, navigation 
             title, body, tags, attachments: []
         }
         console.log(data)
+        createQuestion(data).then(response => {
+            console.log(response)
+            console.log("xxxxxxxxxxxxxxxxx")
+        }).catch(error => {
+            console.log(error)
+        })
     }
 
     return (
