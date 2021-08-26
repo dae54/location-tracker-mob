@@ -1,19 +1,21 @@
 import React, { useRef, useState } from 'react'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import Ionicons from 'react-native-vector-icons/Ionicons'
-import { View, Text, TouchableWithoutFeedback, TouchableNativeFeedback, StyleSheet, Animated } from 'react-native'
+import { View, Text, TouchableNativeFeedback, StyleSheet } from 'react-native'
 import { useTabBarVisibility } from '../../../../context/NavigationContext'
 import PagerView from 'react-native-pager-view';
 import colors from '../../../../components/utilities/Colors'
 import QuestionInfo from './QuestionInfo'
 import QuestionChat from './QuestionChat'
+import { useAuth } from '../../../../context/AuthContext'
 
-export default function QuestionProfile({ navigation }) {
+export default function QuestionProfile({ route, navigation }) {
     const { setVisible, setHidden } = useTabBarVisibility()
     const [selectedPage, setSelectedPage] = useState(0)
     const pageViewRef = useRef()
 
-
+    const { authData } = useAuth()
+    const { question } = route.params;
 
     React.useLayoutEffect(() => {
         setHidden()
@@ -30,8 +32,11 @@ export default function QuestionProfile({ navigation }) {
                 </TouchableNativeFeedback>
                 <View style={styles.headerBody}>
                     <View style={styles.headerBodyTitles}>
-                        <Text style={{ fontWeight: 'bold', fontSize: 16 }}>QN # 9987</Text>
-                        <Text>Dr. Ellen Maziku</Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
+                            {/* QN # 9987 */}
+                            {authData._id === question.user._id ? 'My Question' : 'QN # 9987'}
+                        </Text>
+                        <Text>Tutor: Dr. Ellen Maziku</Text>
                     </View>
                     <Ionicons name='ellipsis-vertical-outline' color='black' size={20} style={{ marginRight: 15 }} />
                 </View>
@@ -63,7 +68,7 @@ export default function QuestionProfile({ navigation }) {
                         setSelectedPage(e.nativeEvent.position)
                     }} >
                     <View key="1">
-                        <QuestionInfo />
+                        <QuestionInfo question={question} />
                     </View>
                     <View key="2">
                         <QuestionChat />
