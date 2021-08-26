@@ -1,30 +1,36 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, ScrollView, Dimensions } from 'react-native'
+import Markdown from 'react-native-markdown-display';
+// import Markdown from 'react-native-markdown-formatter';
+
+const screenWidth = Dimensions.get('window').width
 
 export default function QuestionInfo({ question }) {
+
     return (
-        <View style={{ paddingHorizontal: 5 }}>
+        <ScrollView style={{ paddingHorizontal: 5 }}>
             <View style={styles.card}>
                 <Text style={{ fontSize: 16, fontWeight: 'bold', }}>
-                    lorem ipsum dolor asdf fasdf lorem ipsum dolor asdf fasdf ipsum dolor asdf fasdf ipsum dolor asdf fasdf fasdf
+                    {question.title}
                 </Text>
                 <Text style={{ marginVertical: 10 }}>
                     <Text style={{ color: 'gray' }}>Asked: </Text>3 years, 9 months ago
                     <Text style={{ color: 'gray' }}>  Active: </Text>12 days ago
                     <Text style={{ color: 'gray' }}>  Viewed: </Text>5k times
                 </Text>
-                <View style={{ borderBottomColor: 'black', borderBottomWidth: 1, width: '100%' }}></View>
-                <Text style={{ marginTop: 10, fontStyle: 'italic' }}>
-                    lorem ipsum dolor asdf fasdf lorem ipsum dolor asdf fasdf ipsum dolor asdf fasdf ipsum dolor asdf fasdf fasdf
-                    lorem ipsum dolor asdf fasdf lorem ipsum dolor asdf fasdf ipsum dolor asdf fasdf ipsum dolor asdf fasdf fasdf
-                    lorem ipsum dolor asdf fasdf lorem ipsum dolor asdf fasdf ipsum dolor asdf fasdf ipsum dolor asdf fasdf fasdf
-                </Text>
+                {/* <View style={{ borderBottomColor: 'black', borderBottomWidth: 1, width: '100%' }}></View> */}
+                <ScrollView style={{ elevation: 2, backgroundColor: 'white', maxHeight: screenWidth }}>
+                    <ScrollView style={[styles.scrollView, { width: screenWidth * 0.96 }]} horizontal>
+                        <Markdown>
+                            {question.body}
+                        </Markdown>
+                    </ScrollView>
+                </ScrollView>
             </View>
             <View>
                 <Text style={{ fontWeight: 'bold' }}>Tags:</Text>
                 <View style={{ flexDirection: 'row', marginVertical: 10 }}>
-                    <Text style={{ backgroundColor: '#e1ecf4', color: '#6389c5', marginHorizontal: 5, padding: 5, borderRadius: 7 }}>JAVASCRIPT</Text>
-                    <Text style={{ backgroundColor: '#e1ecf4', color: '#6389c5', marginHorizontal: 5, padding: 5, borderRadius: 7 }}>JAVASCRIPT</Text>
+                    {question.tags.map((tag, index) => <Text key={tag} style={{ backgroundColor: '#e1ecf4', color: '#6389c5', marginHorizontal: 5, padding: 5, borderRadius: 7 }}>{tag}</Text>)}
                 </View>
             </View>
             <View>
@@ -46,9 +52,7 @@ export default function QuestionInfo({ question }) {
                 <Text style={{ fontWeight: 'bold' }}>Solution:</Text>
 
             </View>
-
-
-        </View>
+        </ScrollView>
     )
 }
 
@@ -59,5 +63,18 @@ const styles = StyleSheet.create({
         // padding: 5,
         // backgroundColor: 'white',
         margin: 5
-    }
+    },
+    scrollView: {
+        flexGrow: 1,
+        // margin: 5,
+        paddingVertical: 20,
+        paddingLeft: 5,
+        paddingRight: 10,
+        // width: '100%'
+        // backgroundColor: 'gray',
+        // marginHorizontal: 20,
+    },
+    text: {
+        fontSize: 42,
+    },
 })
