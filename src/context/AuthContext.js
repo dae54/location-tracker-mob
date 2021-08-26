@@ -32,14 +32,15 @@ const AuthProvider = ({ children }) => {
         }
     }
 
-    const signIn = async () => {
+    const signIn = async (email, password) => {
         //call the service passing credential (email and password).
         //In a real App this data will be provided by the user from some InputText components.
         try {
-            const _authData = await AuthAPI.login(
-                'root@admin.com',
-                'toor',
-            );
+            // const _authData = await AuthAPI.login(
+            //     'root@admin.com',
+            //     'toor',
+            // );
+            const _authData = await AuthAPI.login(email, password)
             // const _shopData = await AuthAPI.getUserShops(_authData._id)
             setAuthData(_authData);
             // setShopData(_shopData)
