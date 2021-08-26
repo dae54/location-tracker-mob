@@ -35,6 +35,7 @@ export default function QuestionChat() {
         <View style={{ flex: 1 }}>
             <View style={{ flex: 1 }} >
                 <FlatList
+                    inverted
                     data={thread.data}
                     renderItem={({ item: chat }) => <ChatTile chat={chat} />}
                     keyExtractor={(item) => item._id}
