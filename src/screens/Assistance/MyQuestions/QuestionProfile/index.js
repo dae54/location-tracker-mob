@@ -71,7 +71,7 @@ export default function QuestionProfile({ route, navigation }) {
                         <QuestionInfo question={question} />
                     </View>
                     <View key="2">
-                        <QuestionChat />
+                        <QuestionChat question={question} />
                     </View>
                 </PagerView>
             </View>
