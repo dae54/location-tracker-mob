@@ -1,8 +1,7 @@
 import React, { useLayoutEffect, useState } from 'react'
-import { Alert, FlatList, StyleSheet, Text, TextInput, TouchableNativeFeedback, TouchableOpacity, View } from 'react-native'
+import { FlatList, StyleSheet, Text, TextInput, TouchableNativeFeedback, TouchableOpacity, View } from 'react-native'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import Ionicons from 'react-native-vector-icons/Ionicons'
-import FAB from '../../../components/reusables/FAB'
 import colors from '../../../components/utilities/Colors'
 import { useQuestions } from '../../../context/QuestionsContext'
 import NewQuestion from './NewQuestion'
@@ -11,12 +10,8 @@ import QuestionListTile from './QuestionListTile'
 export default function MyQuestions({ navigation }) {
     // const [questions, setQuestions] = useState({ loading: false, data: Array.from('daniel amani') })
     const { userQuestions, getUserQuestions } = useQuestions()
-    // console.log('**************************')
-    // console.log(userQuestions)
-    // console.log('**************************')
 
     useLayoutEffect(() => {
-        console.log('called')
         getUserQuestions()
     }, [])
 
