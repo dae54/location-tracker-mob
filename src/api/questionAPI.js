@@ -8,7 +8,7 @@ export async function getUserQuestions(userID) {
         .catch(error => { throw parseError(error) })
 }
 export async function getAllQuestions() {
-    return await axios.get('/questions/user/')
+    return await axios.get('/questions/')
         .then(response => parseResponse(response))
         .catch(error => { throw parseError(error) })
 }

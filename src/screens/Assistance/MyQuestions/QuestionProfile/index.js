@@ -33,7 +33,6 @@ export default function QuestionProfile({ route, navigation }) {
                 <View style={styles.headerBody}>
                     <View style={styles.headerBodyTitles}>
                         <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
-                            {/* QN # 9987 */}
                             {authData._id === question.user._id ? 'My Question' : 'QN # 9987'}
                         </Text>
                         <Text>Tutor: Dr. Ellen Maziku</Text>

@@ -1,6 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text, View, TouchableNativeFeedback, TouchableOpacity } from 'react-native'
 import moment from 'moment'
+import colors from '../../../components/utilities/Colors'
 
 export default function QuestionListTile({ question, navigation }) {
     return (
@@ -14,10 +15,17 @@ export default function QuestionListTile({ question, navigation }) {
             }} >
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Text numberOfLines={2} style={{ width: '90%', fontWeight: 'bold', fontSize: 16, textTransform: 'capitalize' }}>
-                    {/* lorem ipsum dolor myqqest lorem ipsum lorem ipsum dolor myqqest lorem ipsum dolor myqqest dolor myqqest */}
                     {question.title}
                 </Text>
-                <Text style={{ backgroundColor: 'green', width: 15, height: 15, borderRadius: 7.5 }} />
+                {question.status === 'pending' &&
+                    <Text style={{ backgroundColor: colors.primary, width: 15, height: 15, borderRadius: 7.5 }} />
+                }
+                {question.status === 'active' &&
+                    <Text style={{ backgroundColor: colors.info, width: 15, height: 15, borderRadius: 7.5 }} />
+                }
+                {question.status === 'solved' &&
+                    <Text style={{ backgroundColor: colors.success, width: 15, height: 15, borderRadius: 7.5 }} />
+                }
             </View>
             <View style={{ marginTop: 5 }}>
                 <Text numberOfLines={1} style={{ color: '#C0C0C0' }}>
