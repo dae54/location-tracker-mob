@@ -8,6 +8,12 @@ export async function login(email, password) {
         .catch(error => { throw parseError(error) })
 }
 
+export async function signUp(payload) {
+    return await axios.post('/users/register', payload)
+        .then(response => parseResponse(response))
+        .catch(error => { throw parseError(error) })
+}
+
 export async function signOut() {
     return await axios.post('/users/signOut')
         .then(response => parseResponse(response))
