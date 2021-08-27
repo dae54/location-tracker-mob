@@ -41,7 +41,7 @@ export default function QuestionChat({ question }) {
 
     return (
         <View style={{ flex: 1 }}>
-            {questionThread.length === 0 ?
+            {questionThread.length === 0 && authData.role === 1 ?
                 <View style={{ flex: 1 }} >
                     <View style={{ elevation: 1, padding: 20, backgroundColor: 'white', margin: 5, justifyContent: 'center', flexGrow: 1 }}>
                         <Text style={{ textAlign: 'center', fontSize: 16 }}>Question is still being reviewed by our agents. Please wait for a respondent</Text>
