@@ -51,6 +51,17 @@ const AuthProvider = ({ children }) => {
         }
     };
 
+    const signUp = async (payload) => {
+        try {
+            const response = await AuthAPI.signUp(payload)
+            return response
+            // setAuthData(_authData);
+            // AsyncStorage.setItem('@AuthData', JSON.stringify(_authData));
+        } catch (error) {
+            throw error
+        }
+    }
+
     const signOut = async () => {
         //Remove data from context, so the App can be notified
         //and send the user to the AuthStack
@@ -62,7 +73,7 @@ const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ authData, loading, signIn, signOut }}>
+        <AuthContext.Provider value={{ authData, loading, signIn, signOut, signUp }}>
             {children}
         </AuthContext.Provider>
     );
