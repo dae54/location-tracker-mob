@@ -27,7 +27,8 @@ export default function QuestionChat({ question }) {
         sendMessage({
             sender: authData._id,
             questionId: question._id,
-            body: message
+            body: message,
+            sentAt: new Date().toISOString()
         })
             .then(() => setMessage(''))
             .catch(error => {
