@@ -1,22 +1,27 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { ScrollView, StyleSheet, Text, TouchableNativeFeedback, View } from 'react-native'
-import { useAuth } from '../../context/AuthContext';
-import AntDesign from 'react-native-vector-icons/AntDesign'
+import Ionicons from 'react-native-vector-icons/Ionicons'
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import colors from '../../components/utilities/Colors';
 import OverviewTile from '../../components/reusables/OverviewTile';
+import Menu from './Menu'
 
 export default function HomeScreen() {
-    // const auth = useAu
-    const auth = useAuth();
+    const [menuVisible, setMenuVisible] = useState(false)
 
     return (
-        <View>
-            <View style={{ height: 50, backgroundColor: colors.light, elevation: 2, flexDirection: 'row', justifyContent: 'space-between', padding: 5 }}>
+        <View style={{ flex: 1 }}>
+            <View style={{ height: 50, backgroundColor: colors.light, elevation: 2, flexDirection: 'row', justifyContent: 'space-between', padding: 5, alignItems: 'center' }}>
                 <Text>Location Aware</Text>
-                <TouchableNativeFeedback accessibilityHint='sign out' onPress={() => auth.signOut()} >
-                    <View>
-                        <AntDesign name='logout' size={20} style={{}} />
+                <TouchableNativeFeedback accessibilityHint='sign out'
+                    onPress={() => {
+                        setMenuVisible(true)
+                    }}
+                >
+                    <View style={{ justifyContent: 'center', height: 50, width: 30, alignItems: 'flex-end' }}>
+                        <Ionicons name='ellipsis-vertical-outline' color='black' size={20} style={{}} />
+
+                        <Menu menuVisible={menuVisible} setMenuVisible={setMenuVisible} />
                     </View>
                 </TouchableNativeFeedback>
             </View>
@@ -110,8 +115,6 @@ export default function HomeScreen() {
     )
 }
 
-// const styles = StyleSheet.create({})
-
 const styles = StyleSheet.create({
     main: {
         // flex: 1,
@@ -133,11 +136,3 @@ const styles = StyleSheet.create({
         height: '100%'
     },
 });
-
-// const styles = StyleSheet.create({
-//     containers: { flex: 1, },
-//     mapcontainer: {
-//         flex: 1,
-//         ...StyleSheet.absoluteFillObject
-//     },
-// });
