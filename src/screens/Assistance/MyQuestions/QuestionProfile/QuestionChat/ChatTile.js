@@ -17,10 +17,10 @@ export default function ChatTile({ chat }) {
                 <View style={{ flexDirection: 'row', alignSelf: 'flex-end' }}>
                     <Text style={{ fontSize: 10, color: '#C0C0C0', }}>{moment(chat.createdAt).fromNow()}</Text>
                     <Text style={{ fontSize: 10, color: '#C0C0C0', }}>
-                        {chat.delivered ?
-                            <Ionicons name='checkmark' color={colors.info} size={14} />
-                            :
+                        {chat.pending ?
                             <Ionicons name='timer-outline' color='red' size={14} />
+                            :
+                            <Ionicons name='checkmark' color={colors.info} size={14} />
                         }
                     </Text>
                 </View>
