@@ -7,6 +7,14 @@ export async function sendMessage(payload) {
         .then(response => parseResponse(response))
         .catch(error => { throw parseError(error) })
 }
+
+export async function syncOfflineMessages(payload) {
+    return await axios.post('/chat/sync', payload)
+        .then(response => parseResponse(response))
+        .catch(error => { throw parseError(error) })
+}
+
+
 export async function getQuestionsThread(questionId) {
     return await axios.get(`/chat/question/${questionId}`)
         .then(response => parseResponse(response))
