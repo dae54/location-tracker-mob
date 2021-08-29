@@ -13,8 +13,8 @@ const SettingsProvider = ({ children }) => {
                 setMapRadius(JSON.parse(_mapRadiusStr));
             } else {
                 // INITIAL DEFAULT MAP RADIUS
-                setMapRadius(1000)
-                AsyncStorage.setItem('@mapRadius', JSON.stringify(1000))
+                setMapRadius(50000)
+                AsyncStorage.setItem('@mapRadius', JSON.stringify(50000))
             }
         } catch (error) {
         } finally {
