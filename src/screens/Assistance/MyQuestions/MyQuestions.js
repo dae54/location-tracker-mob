@@ -18,7 +18,6 @@ export default function MyQuestions({ navigation }) {
     useLayoutEffect(() => {
         getUserQuestions()
     }, [])
-
     const [modalVisible, setModalVisible] = useState(false)
 
     return (
