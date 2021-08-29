@@ -19,8 +19,7 @@ const QuestionsProvider = ({ children }) => {
                 // console.log(response)
                 setAllQuestions(response)
             }).catch(error => {
-                // console.log('*/*/*/*/*/*/*/*/*/*/*/*/')
-                console.log(error)
+                throw error
             }).finally(() => {
                 setLoading(false)
             })
@@ -39,17 +38,12 @@ const QuestionsProvider = ({ children }) => {
     };
 
     const createQuestion = async (payload) => {
-        setLoading(true)
         await QuestionsAPI.createQuestion({ ...payload, user: authData._id })
             .then(response => {
                 console.log(response)
-                setUserQuestions({ error: '', data: [response].concat(userQuestions) })
-                // setUserQuestions(response)
+                setUserQuestions({ error: '', data: [response].concat(userQuestions.data) })
             }).catch(error => {
-                // console.log('*/*/*/*/*/*/*/*/*/*/*/*/')
-                console.log(error)
-            }).finally(() => {
-                setLoading(false)
+                throw error
             })
     };
 
