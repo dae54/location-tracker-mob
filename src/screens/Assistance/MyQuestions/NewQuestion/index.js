@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Button, KeyboardAvoidingView, Modal, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
+import { ActivityIndicator, Button, KeyboardAvoidingView, Modal, ScrollView, StyleSheet, Text, TextInput, TouchableNativeFeedback, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
+import colors from '../../../../components/utilities/Colors'
+import FeedbackHandler from '../../../../components/utilities/FeedbackHandler'
 import { useQuestions } from '../../../../context/QuestionsContext'
 import EditPreview from './EditPreview'
 
@@ -8,6 +10,8 @@ export default function NewQuestion({ modalVisible, setModalVisible, navigation 
     const [tagString, setTagString] = useState('')
     const [body, setBody] = useState('')
     const [tags, setTags] = useState([])
+    const [error, setError] = useState('')
+    const [loading, setLoading] = useState(false)
 
     const { createQuestion } = useQuestions()
     // Effect to extract tags from tagstring
@@ -22,13 +26,21 @@ export default function NewQuestion({ modalVisible, setModalVisible, navigation 
         const data = {
             title, body, tags, attachments: []
         }
-        console.log(data)
-        createQuestion(data).then(response => {
-            console.log(response)
-            console.log("xxxxxxxxxxxxxxxxx")
-        }).catch(error => {
-            console.log(error)
-        })
+        setError('')
+        setLoading(true)
+        createQuestion(data)
+            .then(() => {
+                // CLEANUP INPUTS
+                setBody('')
+                setTagString('')
+                setTags([])
+                setTitle('')
+                setModalVisible(false)
+            }).catch(error => {
+                setError(error.message)
+            }).finally(() => {
+                setLoading(false)
+            })
     }
 
     return (
@@ -48,13 +60,11 @@ export default function NewQuestion({ modalVisible, setModalVisible, navigation 
                     padding: 20,
                 }}>
                 <View style={{ backgroundColor: 'white', borderRadius: 20, elevation: 3, padding: 10 }}>
-                    <TouchableOpacity activeOpacity={0.7} onPress={() => {
-                        setModalVisible(false)
-                    }} style={{ flexDirection: 'row', justifyContent: 'center', backgroundColor: 'white', width: 30, height: 30, alignSelf: 'flex-end', elevation: 5, borderRadius: 15, marginTop: -20, marginRight: -20 }}>
-                        <Text style={{ alignSelf: 'center', color: 'gray' }}>X</Text>
-                    </TouchableOpacity>
-                    <View>
-                        <Text>New Question</Text>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <Text style={{ fontSize: 16, alignSelf: 'center', fontWeight: 'bold' }}>New Question</Text>
+                        <TouchableOpacity activeOpacity={0.7} onPress={() => setModalVisible(false)} style={{ justifyContent: 'center', backgroundColor: 'white', width: 30, height: 30, elevation: 5, borderRadius: 15, }}>
+                            <Text style={{ alignSelf: 'center', color: 'gray' }}>X</Text>
+                        </TouchableOpacity>
                     </View>
                     <View style={{ paddingBottom: 10 }}>
                         <Text style={{ fontWeight: 'bold' }}>Title</Text>
@@ -83,8 +93,18 @@ export default function NewQuestion({ modalVisible, setModalVisible, navigation 
                         </KeyboardAvoidingView>
                         <Text>Attachments</Text>
                         <Text style={{ fontStyle: 'italic', color: '#C0C0C0' }}>Attach images, screenshots or links describing your problem</Text>
-
-                        <Button title='post' onPress={postQuestion} />
+                        <Text style={{ color: '#ccc' }}>(coming soon)</Text>
+                        {error.length > 0 &&
+                            <FeedbackHandler message={{ status: 'error', data: error }} />
+                        }
+                        <TouchableNativeFeedback disabled={loading || title.length === 0} onPress={postQuestion}>
+                            <View style={{ backgroundColor: colors.primary, paddingVertical: 8, elevation: 2, paddingHorizontal: 10, alignItems: 'center', flexDirection: 'row', justifyContent: 'center' }}>
+                                <Text style={{ color: 'white' }}>POST</Text>
+                                {loading &&
+                                    <ActivityIndicator animating color='white' size={20} style={{ marginLeft: 5 }} />
+                                }
+                            </View>
+                        </TouchableNativeFeedback>
                     </View>
 
                 </View>
