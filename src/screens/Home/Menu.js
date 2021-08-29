@@ -1,11 +1,12 @@
 import React from 'react'
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import colors from '../../components/utilities/Colors';
+// import colors from '../../components/utilities/Colors';
+import moment from 'moment'
 import { useAuth } from '../../context/AuthContext';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 
 export default function Menu({ menuVisible, setMenuVisible }) {
-    const auth = useAuth();
+    const { signOut, authData } = useAuth();
 
     return (
         <Modal
@@ -31,11 +32,28 @@ export default function Menu({ menuVisible, setMenuVisible }) {
                             <AntDesign name='close' size={20} style={{}} />
                         </Text>
                     </TouchableOpacity>
-                    <Text style={{ textAlign: 'center', fontSize: 16, fontWeight: 'bold' }}>Menu</Text>
+
+                    <View style={{ flexDirection: 'row', justifyContent: 'center', marginVertical: 20 }}>
+                        <View style={{ backgroundColor: 'white', height: 80, width: 80, borderRadius: 15, justifyContent: 'center', alignItems: 'center', elevation: 2 }}>
+                            <AntDesign name='user' size={40} color='gray' style={{}} />
+                        </View>
+                        <View style={{ marginLeft: 20, justifyContent: 'space-around' }}>
+                            <View>
+                                <Text style={{ fontWeight: 'bold', fontSize: 16 }}>{authData.fullName}</Text>
+                                <Text style={{ fontWeight: 'normal', fontSize: 14 }}>
+                                    {authData.role === 1 && 'STUDENT'}
+                                    {authData.role === 2 && 'TUTOR / VOLUNTEER'}
+                                    {authData.role === 3 && 'ADMIN'}
+                                </Text>
+                            </View>
+                            <Text style={{ fontWeight: 'normal', fontSize: 14 }}>Registered: {moment(authData.createdAt).fromNow()}</Text>
+                        </View>
+                    </View>
+
                     <ActionButton title='Change Password' />
                     <ActionButton title='Visit Profile' />
                     <ActionButton title="Read FAQ's" />
-                    <ActionButton title='Sign Out' color='red' action={() => auth.signOut()} />
+                    <ActionButton title='Sign Out' color='red' action={() => signOut()} />
                 </View>
             </View>
         </Modal>
