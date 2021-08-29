@@ -6,7 +6,7 @@ import { useAuth } from './AuthContext';
 const QuestionsContext = createContext();
 
 const QuestionsProvider = ({ children }) => {
-    const [userQuestions, setUserQuestions] = useState([]);
+    const [userQuestions, setUserQuestions] = useState({ error: '', data: [] });
     const [allQuestions, setAllQuestions] = useState([]);
     const [loading, setLoading] = useState(false)
 
@@ -30,11 +30,9 @@ const QuestionsProvider = ({ children }) => {
         setLoading(true)
         await QuestionsAPI.getUserQuestions(authData._id)
             .then(response => {
-                // console.log(response)
-                setUserQuestions(response)
+                setUserQuestions({ error: '', data: response })
             }).catch(error => {
-                // console.log('*/*/*/*/*/*/*/*/*/*/*/*/')
-                console.log(error)
+                setUserQuestions({ error: error.message, data: [] })
             }).finally(() => {
                 setLoading(false)
             })
@@ -45,7 +43,7 @@ const QuestionsProvider = ({ children }) => {
         await QuestionsAPI.createQuestion({ ...payload, user: authData._id })
             .then(response => {
                 console.log(response)
-                setUserQuestions([response].concat(userQuestions))
+                setUserQuestions({ error: '', data: [response].concat(userQuestions) })
                 // setUserQuestions(response)
             }).catch(error => {
                 // console.log('*/*/*/*/*/*/*/*/*/*/*/*/')
