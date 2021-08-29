@@ -5,8 +5,6 @@ import MyQuestions from './MyQuestions'
 
 export default function MyQuestionsWrapper({ navigation }) {
     return (
-        <QuestionsProvider>
-            <MyQuestions navigation={navigation} />
-        </QuestionsProvider>
+        <MyQuestions navigation={navigation} />
     )
 }

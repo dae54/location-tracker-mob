@@ -28,14 +28,16 @@ export default function QuestionProfile({ route, navigation }) {
         <View style={{ flex: 1 }}>
             <View style={styles.header}>
                 <TouchableNativeFeedback onPress={() => navigation.pop()}>
-                    <AntDesign name='arrowleft' color='black' size={20} />
+                    <View style={{ height: 40, width: 20, justifyContent: 'center', marginLeft: 5 }}>
+                        <AntDesign name='arrowleft' color='black' size={20} />
+                    </View>
                 </TouchableNativeFeedback>
                 <View style={styles.headerBody}>
                     <View style={styles.headerBodyTitles}>
                         <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
                             {authData._id === question.user._id ? 'My Question' : 'QN # 9987'}
                         </Text>
-                        <Text>Tutor: Dr. Ellen Maziku</Text>
+                        <Text>Tutor: {question.assistedBy ? question.assistedBy.fullName : 'Not assigned'}</Text>
                     </View>
                     <Ionicons name='ellipsis-vertical-outline' color='black' size={20} style={{ marginRight: 15 }} />
                 </View>
@@ -85,7 +87,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         flexDirection: 'row',
         alignItems: 'center',
-        paddingHorizontal: 10,
+        paddingRight: 10,
         elevation: 5
     },
     headerBody: {

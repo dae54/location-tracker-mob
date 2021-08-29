@@ -8,20 +8,17 @@ const QuestionsContext = createContext();
 const QuestionsProvider = ({ children }) => {
     const [userQuestions, setUserQuestions] = useState({ error: '', data: [] });
     const [allQuestions, setAllQuestions] = useState([]);
+    const [questionsAnsweredByMe, setQuestionsAnsweredByMe] = useState({ error: '', data: [] });
     const [loading, setLoading] = useState(false)
 
     const { authData } = useAuth()
 
     const getAllQuestions = async () => {
-        setLoading(true)
         await QuestionsAPI.getAllQuestions()
             .then(response => {
-                // console.log(response)
                 setAllQuestions(response)
             }).catch(error => {
                 throw error
-            }).finally(() => {
-                setLoading(false)
             })
     };
     const getUserQuestions = async () => {
@@ -37,6 +34,18 @@ const QuestionsProvider = ({ children }) => {
             })
     };
 
+    const getQuestionsAnsweredByMe = async () => {
+        setLoading(true)
+        await QuestionsAPI.getQuestionsAnsweredByMe(authData._id)
+            .then(response => {
+                setQuestionsAnsweredByMe({ error: '', data: response })
+            }).catch(error => {
+                setQuestionsAnsweredByMe({ error: error.message, data: [] })
+            }).finally(() => {
+                setLoading(false)
+            })
+    };
+
     const createQuestion = async (payload) => {
         await QuestionsAPI.createQuestion({ ...payload, user: authData._id })
             .then(response => {
@@ -47,8 +56,19 @@ const QuestionsProvider = ({ children }) => {
             })
     };
 
+    const assignTutor = async (tutorID, questionID) => {
+        await QuestionsAPI.assignTutor(tutorID, questionID)
+            .then(response => {
+                allQuestions[allQuestions.findIndex((value => value._id === response._id))] = response
+                setAllQuestions(allQuestions)
+                return response
+            }).catch(error => {
+                throw error
+            })
+    };
+
     return (
-        <QuestionsContext.Provider value={{ allQuestions, userQuestions, loading, getAllQuestions, getUserQuestions, createQuestion }}>
+        <QuestionsContext.Provider value={{ allQuestions, userQuestions, loading, questionsAnsweredByMe, getAllQuestions, getUserQuestions, createQuestion, getQuestionsAnsweredByMe, assignTutor }}>
             {children}
         </QuestionsContext.Provider>
     );
