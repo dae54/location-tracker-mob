@@ -6,6 +6,8 @@ import AllQuestions from '../../../screens/Assistance/AllQuestions'
 import MyQuestions from '../../../screens/Assistance/MyQuestions'
 import QuestionProfile from '../../../screens/Assistance/MyQuestions/QuestionProfile'
 import { useAuth } from '../../../context/AuthContext';
+import { QuestionsProvider } from '../../../context/QuestionsContext';
+import AnsweredByMe from '../../../screens/Assistance/AnsweredByMe';
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
@@ -20,10 +22,12 @@ export default function AssistanceScreenStackNavigator() {
         // headerShown: false,
     }
     return (
-        <Stack.Navigator screenOptions={screenOptions}>
-            <Stack.Screen options={{ headerShown: false }} name="assist" component={TopNavigator} />
-            <Stack.Screen options={{ headerShown: false }} name="question_profile" component={QuestionProfile} />
-        </Stack.Navigator>
+        <QuestionsProvider>
+            <Stack.Navigator screenOptions={screenOptions}>
+                <Stack.Screen options={{ headerShown: false }} name="assist" component={TopNavigator} />
+                <Stack.Screen options={{ headerShown: false }} name="question_profile" component={QuestionProfile} />
+            </Stack.Navigator>
+        </QuestionsProvider>
     );
 }
 
@@ -41,7 +45,7 @@ function TopNavigator() {
         return (
             <Tab.Navigator>
                 <Tab.Screen name="All Questions" component={AllQuestions} />
-                <Tab.Screen name="Answered By Me" component={MyQuestions} />
+                <Tab.Screen name="Answered By Me" component={AnsweredByMe} />
             </Tab.Navigator>
         )
     }
