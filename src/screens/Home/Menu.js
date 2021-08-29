@@ -1,7 +1,5 @@
 import React from 'react'
-import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-// import colors from '../../components/utilities/Colors';
-import moment from 'moment'
+import { Modal, StyleSheet, Text, TouchableNativeFeedback, TouchableOpacity, View } from 'react-native'
 import { useAuth } from '../../context/AuthContext';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 
@@ -46,7 +44,7 @@ export default function Menu({ menuVisible, setMenuVisible }) {
                                     {authData.role === 3 && 'ADMIN'}
                                 </Text>
                             </View>
-                            <Text style={{ fontWeight: 'normal', fontSize: 14 }}>Registered: {moment(authData.createdAt).fromNow()}</Text>
+                            <Text style={{}}>{authData.email}</Text>
                         </View>
                     </View>
 
@@ -62,9 +60,13 @@ export default function Menu({ menuVisible, setMenuVisible }) {
 
 function ActionButton({ title, action, color }) {
     return (
-        <TouchableOpacity onPress={action} style={{ backgroundColor: 'white', borderRadius: 10, elevation: 1, paddingHorizontal: 10, paddingVertical: 15, alignItems: 'center', marginVertical: 5 }} activeOpacity={0.9}>
-            <Text style={{ color }}>{title}</Text>
-        </TouchableOpacity>
+        <TouchableNativeFeedback onPress={action} activeOpacity={0.9}>
+            <View style={{ backgroundColor: 'white', borderRadius: 10, elevation: 1, paddingHorizontal: 10, paddingVertical: 15, alignItems: 'center', marginVertical: 5 }}>
+                <Text style={{ color }}>{title}</Text>
+            </View>
+
+        </TouchableNativeFeedback>
+
     )
 }
 
