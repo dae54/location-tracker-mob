@@ -13,6 +13,14 @@ export async function getQuestionsThread(questionId) {
         .catch(error => { throw parseError(error) })
 }
 
+export async function getQuestionsLatestMessage(questionId, lastMessageSentAt, currentUser) {
+    return await axios.get(`/chat/question/latest/${questionId}`, { params: { ...lastMessageSentAt, currentUser } })
+        .then(response => parseResponse(response))
+        .catch(error => { throw parseError(error) })
+}
+
+
+
 // export async function createQuestion(payload) {
 //     return await axios.post('/questions/', payload)
 //         .then(response => parseResponse(response))

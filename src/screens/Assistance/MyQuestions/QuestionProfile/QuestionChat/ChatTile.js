@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
         paddingVertical: 8,
         paddingHorizontal: 10,
         marginTop: 10,
-        elevation: 2,
+        elevation: 1,
         marginHorizontal: 10,
         borderRadius: 10,
         maxWidth: '80%',
@@ -46,6 +46,6 @@ const styles = StyleSheet.create({
     },
     alignLeft: {
         alignSelf: 'flex-start',
-        backgroundColor: 'red',
+        backgroundColor: '#e0e0e0',
     }
 })
