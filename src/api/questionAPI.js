@@ -19,6 +19,11 @@ export async function getQuestionsAnsweredByMe(userID) {
         .catch(error => { throw parseError(error) })
 }
 
+export async function getQuestionsCount(userID) {
+    return await axios.get(`/questions/count/${userID}`)
+        .then(response => parseResponse(response))
+        .catch(error => { throw parseError(error) })
+}
 
 export async function createQuestion(payload) {
     return await axios.post('/questions/', payload)
