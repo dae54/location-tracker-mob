@@ -27,7 +27,9 @@ export default function QuestionProfile({ route, navigation }) {
     return (
         <View style={{ flex: 1 }}>
             <View style={styles.header}>
-                <TouchableNativeFeedback onPress={() => navigation.pop()}>
+                <TouchableNativeFeedback onPress={() => navigation.pop()}
+                    background={TouchableNativeFeedback.Ripple('#c0c0c0', true)}
+                >
                     <View style={{ height: 40, width: 20, justifyContent: 'center', marginLeft: 5 }}>
                         <AntDesign name='arrowleft' color='black' size={20} />
                     </View>
@@ -39,7 +41,17 @@ export default function QuestionProfile({ route, navigation }) {
                         </Text>
                         <Text>Tutor: {question.assistedBy ? question.assistedBy.fullName : 'Not assigned'}</Text>
                     </View>
-                    <Ionicons name='ellipsis-vertical-outline' color='black' size={20} style={{ marginRight: 15 }} />
+                    <View style={{ marginRight: 25 }}>
+                        <TouchableNativeFeedback
+                            background={TouchableNativeFeedback.Ripple('#c0c0c0', true)}
+                        >
+                            <View style={{ height: 40, width: 20, justifyContent: 'center', }}>
+                                <Ionicons name='ellipsis-vertical-outline' color='black' size={20} />
+                            </View>
+                        </TouchableNativeFeedback>
+                    </View>
+
+                    {/* <Ionicons name='ellipsis-vertical-outline' color='black' size={20} style={{ marginRight: 15 }} /> */}
                 </View>
             </View>
             <View style={{ flexGrow: 1, }}>
@@ -88,6 +100,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         paddingRight: 10,
+        paddingLeft: 10,
         elevation: 5
     },
     headerBody: {

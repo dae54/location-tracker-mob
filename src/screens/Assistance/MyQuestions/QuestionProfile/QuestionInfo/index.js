@@ -1,7 +1,6 @@
 import React from 'react'
 import { View, Text, StyleSheet, ScrollView, Dimensions } from 'react-native'
 import Markdown from 'react-native-markdown-display';
-// import Markdown from 'react-native-markdown-formatter';
 import moment from 'moment'
 
 const screenWidth = Dimensions.get('window').width
@@ -35,7 +34,7 @@ export default function QuestionInfo({ question }) {
             </View>
             <View>
                 <Text style={{ fontWeight: 'bold' }}>Attachments:</Text>
-                <Text>No Attachments</Text>
+                <Text>Coming soon</Text>
                 {/* <View style={{ flexDirection: 'row' }}>
                     <View style={{ width: 50, backgroundColor: 'red', marginHorizontal: 5, height: 50 }}></View>
                     <View style={{ width: 50, backgroundColor: 'red', marginHorizontal: 5, height: 50 }}></View>
@@ -46,11 +45,13 @@ export default function QuestionInfo({ question }) {
             <View style={{ marginVertical: 10 }}>
                 <Text style={{ fontWeight: 'bold' }}>Bounty:</Text>
                 <View>
-                    <Text style={{}}>No bounty set</Text>
+                    <Text style={{}}>Coming soon</Text>
                 </View>
             </View>
             <View style={{ marginVertical: 10 }}>
-                <Text style={{ fontWeight: 'bold' }}>Solution:</Text>
+                <Text style={{ fontWeight: 'bold' }}>Quick Solution:</Text>
+                <Text style={{}}>Coming soon</Text>
+
             </View>
         </ScrollView>
     )

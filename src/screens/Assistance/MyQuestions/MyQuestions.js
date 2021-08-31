@@ -73,14 +73,16 @@ export default function MyQuestions({ navigation }) {
                                     onRefresh={getUserQuestions}
                                 />
                             }
+                            contentContainerStyle={{
+                                paddingBottom: 60
+                            }}
                             data={userQuestions.data}
                             renderItem={({ item: question }) => <QuestionListTile question={question} navigation={navigation} key={question._id} />}
                             keyExtractor={(item) => item._id}
                         />
                 }
             </View>
-            <TouchableNativeFeedback activeOpacity={0.8}
-                onPress={() => setModalVisible(true)}>
+            <TouchableNativeFeedback onPress={() => setModalVisible(true)}>
                 <View style={styles.touchableOpacityStyle}>
                     <AntDesign name='plus' size={30} color={colors.light} />
                     <NewQuestion modalVisible={modalVisible} setModalVisible={setModalVisible} />
