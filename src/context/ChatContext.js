@@ -1,7 +1,7 @@
 import React, { createContext, useState, useContext } from 'react';
 // import * as QuestionsAPI from '../api/questionAPI'
 import * as ChatAPI from '../api/chatAPI'
-// import { useAuth } from './AuthContext';
+import { useAuth } from './AuthContext';
 
 const ChatContext = createContext();
 
@@ -9,7 +9,7 @@ const ChatProvider = ({ children }) => {
     const [loading, setLoading] = useState(false)
     const [questionThread, setQuestionThread] = useState([])
 
-    // const { authData } = useAuth()
+    const { authData } = useAuth()
 
     const getQuestionsThread = async (questionId) => {
         setLoading(true)
@@ -17,6 +17,21 @@ const ChatProvider = ({ children }) => {
             .then(response => {
                 // console.log(response)
                 setQuestionThread(response)
+            }).catch(error => {
+                console.log(error)
+            }).finally(() => {
+                setLoading(false)
+            })
+    };
+    const getQuestionsLatestMessage = async (questionId, lastMessageSentAt) => {
+        // setLoading(true)
+        console.log(lastMessageSentAt)
+        // console.log(questionThread[questionThread.length - 1].sentAt)
+        await ChatAPI.getQuestionsLatestMessage(questionId, lastMessageSentAt, authData._id)
+            .then(response => {
+                // console.log(response)
+                // setQuestionThread(response)
+                setQuestionThread(questionThread.concat(response))
             }).catch(error => {
                 console.log(error)
             }).finally(() => {
@@ -36,7 +51,7 @@ const ChatProvider = ({ children }) => {
     }
 
     return (
-        <ChatContext.Provider value={{ questionThread, loading, getQuestionsThread, sendMessage }}>
+        <ChatContext.Provider value={{ questionThread, loading, getQuestionsThread, sendMessage, getQuestionsLatestMessage }}>
             {children}
         </ChatContext.Provider>
     );

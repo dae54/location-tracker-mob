@@ -1,4 +1,4 @@
-import React, { useState, useContext, useLayoutEffect, useRef } from 'react'
+import React, { useState, useContext, useLayoutEffect, useRef, useEffect } from 'react'
 import { View, Text, FlatList, TextInput, StyleSheet, KeyboardAvoidingView, TouchableNativeFeedback, ActivityIndicator } from 'react-native'
 import ChatTile from './ChatTile'
 import Ionicons from 'react-native-vector-icons/Ionicons'
@@ -14,9 +14,22 @@ export default function QuestionChat({ question }) {
     const [message, setMessage] = useState('')
     const threadRef = useRef()
 
-    const { questionThread, getQuestionsThread, sendMessage } = useChat()
+    const { questionThread, getQuestionsThread, sendMessage, getQuestionsLatestMessage } = useChat()
     const { assignTutor } = useQuestions()
     const { authData } = useAuth()
+
+    const REFRESH_MS = 4000;
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            console.log('Logs every minute');
+            // console.log(question._id)
+            // questionThread.length > 0 &&
+            getQuestionsLatestMessage(question._id, { lastMessageSentAt: questionThread.length > 0 ? questionThread[questionThread.length - 1].sentAt : 0 })
+        }, REFRESH_MS);
+
+        return () => clearInterval(interval); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
+    }, [questionThread])
 
 
     async function getThread() {
