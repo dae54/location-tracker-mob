@@ -16,13 +16,9 @@ const getToken = async () => {
 const instance = axios.create({
     timeout: 10000,
     timeoutErrorMessage: 'Request timeout. Try again',
-    // baseURL: 'https://stock-tracker-system.herokuapp.com/api/v1'
-    baseURL: 'http://10.0.2.2:5400/api/v1'
-    // baseURL: 'http://192.168.43.4:5400/api/v1'
-    // baseURL: 'http://192.168.24.69:5400/api/v1'
-
-
-
+    // baseURL: 'http://10.0.2.2:5400/api/v1'
+    baseURL: 'https://location-aware-api.herokuapp.com/api/v1'
+    // baseURL: 'http://192.168.172.69:5400/api/v1'
 });
 
 instance.interceptors.request.use(async config => {
