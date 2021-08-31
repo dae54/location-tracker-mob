@@ -1,11 +1,13 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import * as AuthAPI from '../api/authAPI'
+import { useSettings } from './SettingsContext';
 
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
     const [authData, setAuthData] = useState();
+    const { loadStorageSettings } = useSettings()
     // const [shopData, setShopData] = useState();
 
     const [loading, setLoading] = useState(true);
@@ -19,12 +21,10 @@ const AuthProvider = ({ children }) => {
     async function loadStorageData() {
         try {
             const authDataSerialized = await AsyncStorage.getItem('@AuthData');
-            // const shopDataSerialized = await AsyncStorage.getItem('@ShopData');
             if (authDataSerialized) {
                 const _authData = JSON.parse(authDataSerialized);
-                // const _shopData = JSON.parse(shopDataSerialized);
                 setAuthData(_authData);
-                // setShopData(_shopData)
+                await loadStorageSettings()
             }
         } catch (error) {
         } finally {

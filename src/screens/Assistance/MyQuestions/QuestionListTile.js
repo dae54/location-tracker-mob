@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TouchableNativeFeedback, TouchableOpacity } fro
 import moment from 'moment'
 import colors from '../../../components/utilities/Colors'
 
-export default function QuestionListTile({ question, navigation }) {
+export default function QuestionListTile({ question, navigation, showStudent }) {
     return (
         <TouchableOpacity style={styles.card}
             activeOpacity={0.9}
@@ -33,7 +33,11 @@ export default function QuestionListTile({ question, navigation }) {
                 </Text>
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                <Text style={{}}>Assistance: Dr. Maziku</Text>
+                {showStudent ?
+                    <Text>Student: {question.user.fullName}</Text>
+                    :
+                    <Text>Tutor: {question.assistedBy ? question.assistedBy.fullName : 'Not assigned'}</Text>
+                }
                 <Text style={{}}>{moment(question.createdAt).format('DD MMM YYYY, HH:mm ')}</Text>
             </View>
         </TouchableOpacity>

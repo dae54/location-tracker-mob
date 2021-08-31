@@ -34,10 +34,10 @@ export default function SignInScreen({ navigation }) {
                             <Text style={styles.logoText}>Location Aware</Text>
                         </View>
                         <KeyboardAvoidingView>
-                            <TextInput placeholder="Email" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} onChangeText={(text) => setEmail(text)} />
+                            <TextInput placeholder="Email" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} placeholderTextColor='#c0c0c0' onChangeText={(text) => setEmail(text)} />
                         </KeyboardAvoidingView>
                         <KeyboardAvoidingView>
-                            <TextInput placeholder="Password" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} secureTextEntry={true} onChangeText={(text) => setPassword(text)} />
+                            <TextInput placeholder="Password" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} placeholderTextColor='#c0c0c0' secureTextEntry={true} onChangeText={(text) => setPassword(text)} />
                         </KeyboardAvoidingView>
                         <View style={{ width: '80%', alignSelf: 'center', marginTop: 20 }}>
                             <TouchableNativeFeedback
@@ -107,6 +107,7 @@ const styles = StyleSheet.create({
         marginRight: 15,
         marginTop: 5,
         marginBottom: 5,
+        color: 'black'
 
     },
     loginButton: {

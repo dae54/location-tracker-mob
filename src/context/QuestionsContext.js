@@ -6,23 +6,19 @@ import { useAuth } from './AuthContext';
 const QuestionsContext = createContext();
 
 const QuestionsProvider = ({ children }) => {
-    const [userQuestions, setUserQuestions] = useState([]);
+    const [userQuestions, setUserQuestions] = useState({ error: '', data: [] });
     const [allQuestions, setAllQuestions] = useState([]);
+    const [questionsAnsweredByMe, setQuestionsAnsweredByMe] = useState({ error: '', data: [] });
     const [loading, setLoading] = useState(false)
 
     const { authData } = useAuth()
 
     const getAllQuestions = async () => {
-        setLoading(true)
         await QuestionsAPI.getAllQuestions()
             .then(response => {
-                // console.log(response)
                 setAllQuestions(response)
             }).catch(error => {
-                // console.log('*/*/*/*/*/*/*/*/*/*/*/*/')
-                console.log(error)
-            }).finally(() => {
-                setLoading(false)
+                throw error
             })
     };
     const getUserQuestions = async () => {
@@ -30,33 +26,49 @@ const QuestionsProvider = ({ children }) => {
         setLoading(true)
         await QuestionsAPI.getUserQuestions(authData._id)
             .then(response => {
-                // console.log(response)
-                setUserQuestions(response)
+                setUserQuestions({ error: '', data: response })
             }).catch(error => {
-                // console.log('*/*/*/*/*/*/*/*/*/*/*/*/')
-                console.log(error)
+                setUserQuestions({ error: error.message, data: [] })
+            }).finally(() => {
+                setLoading(false)
+            })
+    };
+
+    const getQuestionsAnsweredByMe = async () => {
+        setLoading(true)
+        await QuestionsAPI.getQuestionsAnsweredByMe(authData._id)
+            .then(response => {
+                setQuestionsAnsweredByMe({ error: '', data: response })
+            }).catch(error => {
+                setQuestionsAnsweredByMe({ error: error.message, data: [] })
             }).finally(() => {
                 setLoading(false)
             })
     };
 
     const createQuestion = async (payload) => {
-        setLoading(true)
         await QuestionsAPI.createQuestion({ ...payload, user: authData._id })
             .then(response => {
                 console.log(response)
-                setUserQuestions([response].concat(userQuestions))
-                // setUserQuestions(response)
+                setUserQuestions({ error: '', data: [response].concat(userQuestions.data) })
             }).catch(error => {
-                // console.log('*/*/*/*/*/*/*/*/*/*/*/*/')
-                console.log(error)
-            }).finally(() => {
-                setLoading(false)
+                throw error
+            })
+    };
+
+    const assignTutor = async (tutorID, questionID) => {
+        await QuestionsAPI.assignTutor(tutorID, questionID)
+            .then(response => {
+                allQuestions[allQuestions.findIndex((value => value._id === response._id))] = response
+                setAllQuestions(allQuestions)
+                return response
+            }).catch(error => {
+                throw error
             })
     };
 
     return (
-        <QuestionsContext.Provider value={{ allQuestions, userQuestions, loading, getAllQuestions, getUserQuestions, createQuestion }}>
+        <QuestionsContext.Provider value={{ allQuestions, userQuestions, loading, questionsAnsweredByMe, getAllQuestions, getUserQuestions, createQuestion, getQuestionsAnsweredByMe, assignTutor }}>
             {children}
         </QuestionsContext.Provider>
     );

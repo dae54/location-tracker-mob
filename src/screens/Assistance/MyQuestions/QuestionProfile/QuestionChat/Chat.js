@@ -1,19 +1,22 @@
 import React, { useState, useContext, useLayoutEffect, useRef } from 'react'
-import { View, Text, FlatList, TextInput, StyleSheet, KeyboardAvoidingView, TouchableNativeFeedback } from 'react-native'
+import { View, Text, FlatList, TextInput, StyleSheet, KeyboardAvoidingView, TouchableNativeFeedback, ActivityIndicator } from 'react-native'
 import ChatTile from './ChatTile'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import colors from '../../../../../components/utilities/Colors'
 import { useChat } from '../../../../../context/ChatContext'
 import { useAuth } from '../../../../../context/AuthContext'
+import { useQuestions } from '../../../../../context/QuestionsContext'
 
 export default function QuestionChat({ question }) {
+    const [chatInitiated, setChatInitiated] = useState(question.assistedBy ? true : false)
+    const [chatInitiationLoading, setChatInitiationLoading] = useState(false)
+
     const [message, setMessage] = useState('')
     const threadRef = useRef()
 
-
     const { questionThread, getQuestionsThread, sendMessage } = useChat()
+    const { assignTutor } = useQuestions()
     const { authData } = useAuth()
-    console.log(questionThread)
 
 
     async function getThread() {
@@ -36,49 +39,76 @@ export default function QuestionChat({ question }) {
             })
     }
 
+    async function handleAssignTutor() {
+        setChatInitiationLoading(true)
+        await assignTutor(authData._id, question._id)
+            .then(response => {
+                setChatInitiated(true)
+            }).catch(error => {
+                console.log(error)
+            }).finally(() => {
+                setChatInitiationLoading(false)
+            })
+    }
+
     useLayoutEffect(() => {
         getThread()
     }, [])
 
     return (
         <View style={{ flex: 1 }}>
-            {questionThread.length === 0 && authData.role === 1 ?
+            {/* {questionThread.length === 0 && authData.role === 1 ? */}
+            {!chatInitiated && authData.role === 1 ?
                 <View style={{ flex: 1 }} >
                     <View style={{ elevation: 1, padding: 20, backgroundColor: 'white', margin: 5, justifyContent: 'center', flexGrow: 1 }}>
                         <Text style={{ textAlign: 'center', fontSize: 16 }}>Question is still being reviewed by our agents. Please wait for a respondent</Text>
                     </View>
                 </View>
                 :
-                <>
+                authData.role === 2 && !chatInitiated ?
                     <View style={{ flex: 1 }} >
-                        <FlatList
-                            ref={threadRef}
-                            onContentSizeChange={() => threadRef.current.scrollToEnd({ animated: true })}
-                            onLayout={() => threadRef.current.scrollToEnd({ animated: true })}
-                            contentContainerStyle={{
-                                paddingBottom: 10
-                            }}
-                            data={questionThread}
-                            renderItem={({ item: chat }) => <ChatTile chat={chat} />}
-                            keyExtractor={(item) => item._id}
-                        />
-                    </View>
-                    <KeyboardAvoidingView>
-                        <View style={{ flexDirection: 'row', borderTopWidth: 1, borderTopColor: '#C0C0C0', justifyContent: 'space-between', alignItems: 'center' }}>
-                            <View style={styles.searchProduct}>
-                                <TextInput multiline returnKeyType='send' style={styles.subSectionInput} placeholderTextColor='#C0C0C0' placeholder='Type a message' value={message} onChangeText={(text) => setMessage(text)} />
-                                {message.length === 0 &&
-                                    <Ionicons name='attach' style={styles.searchIcon} color='#C0C0C0' size={20} />
-                                }
-                            </View>
-                            <TouchableNativeFeedback onPress={handleSendMessage} disabled={message.length === 0}>
-                                <View style={{ justifyContent: 'center', marginRight: 10, backgroundColor: 'white', height: 40, width: 40, borderRadius: 20, alignItems: 'center', elevation: 1 }}>
-                                    <Ionicons name='send' color='#C0C0C0' size={15} />
+                        <View style={{ elevation: 1, padding: 20, backgroundColor: 'white', margin: 5, justifyContent: 'center', flexGrow: 1 }}>
+                            <TouchableNativeFeedback onPress={handleAssignTutor} disabled={chatInitiationLoading}>
+                                <View style={{ backgroundColor: colors.primary, flexDirection: 'row', justifyContent: 'center', paddingVertical: 10, elevation: 2 }}>
+                                    <Text style={{ textAlign: 'center', fontSize: 16, color: 'whitesmoke' }}>Initiate Conversation</Text>
+                                    {chatInitiationLoading &&
+                                        <ActivityIndicator color='#ccc' animating size={20} style={{ marginLeft: 5 }} />
+                                    }
                                 </View>
                             </TouchableNativeFeedback>
                         </View>
-                    </KeyboardAvoidingView>
-                </>
+                    </View>
+                    :
+                    <>
+                        <View style={{ flex: 1 }} >
+                            <FlatList
+                                ref={threadRef}
+                                onContentSizeChange={() => threadRef.current.scrollToEnd({ animated: true })}
+                                onLayout={() => threadRef.current.scrollToEnd({ animated: true })}
+                                contentContainerStyle={{
+                                    paddingBottom: 10
+                                }}
+                                data={questionThread}
+                                renderItem={({ item: chat }) => <ChatTile chat={chat} />}
+                                keyExtractor={(item) => item._id}
+                            />
+                        </View>
+                        <KeyboardAvoidingView>
+                            <View style={{ flexDirection: 'row', borderTopWidth: 1, borderTopColor: '#C0C0C0', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <View style={styles.searchProduct}>
+                                    <TextInput multiline returnKeyType='send' style={styles.subSectionInput} placeholderTextColor='#C0C0C0' placeholder='Type a message' value={message} onChangeText={(text) => setMessage(text)} />
+                                    {message.length === 0 &&
+                                        <Ionicons name='attach' style={styles.searchIcon} color='#C0C0C0' size={20} />
+                                    }
+                                </View>
+                                <TouchableNativeFeedback onPress={handleSendMessage} disabled={message.length === 0}>
+                                    <View style={{ justifyContent: 'center', marginRight: 10, backgroundColor: 'white', height: 40, width: 40, borderRadius: 20, alignItems: 'center', elevation: 1 }}>
+                                        <Ionicons name='send' color='#C0C0C0' size={15} />
+                                    </View>
+                                </TouchableNativeFeedback>
+                            </View>
+                        </KeyboardAvoidingView>
+                    </>
             }
         </View>
     )

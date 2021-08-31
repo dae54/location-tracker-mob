@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text, StyleSheet, ScrollView, Dimensions } from 'react-native'
 import Markdown from 'react-native-markdown-display';
-// import Markdown from 'react-native-markdown-formatter';
+import moment from 'moment'
 
 const screenWidth = Dimensions.get('window').width
 
@@ -14,11 +14,10 @@ export default function QuestionInfo({ question }) {
                     {question.title}
                 </Text>
                 <Text style={{ marginVertical: 10 }}>
-                    <Text style={{ color: 'gray' }}>Asked: </Text>3 years, 9 months ago
-                    <Text style={{ color: 'gray' }}>  Active: </Text>12 days ago
-                    <Text style={{ color: 'gray' }}>  Viewed: </Text>5k times
+                    <Text style={{ color: 'gray' }}>Asked: </Text>{moment(question.createdAt).fromNow()}
+                    {/* <Text style={{ color: 'gray' }}>  Active: </Text>12 days ago */}
+                    {/* <Text style={{ color: 'gray' }}>  Viewed: </Text>5k times */}
                 </Text>
-                {/* <View style={{ borderBottomColor: 'black', borderBottomWidth: 1, width: '100%' }}></View> */}
                 <ScrollView style={{ elevation: 2, backgroundColor: 'white', maxHeight: screenWidth }}>
                     <ScrollView style={[styles.scrollView, { width: screenWidth * 0.96 }]} horizontal>
                         <Markdown>
@@ -35,21 +34,23 @@ export default function QuestionInfo({ question }) {
             </View>
             <View>
                 <Text style={{ fontWeight: 'bold' }}>Attachments:</Text>
-                <View style={{ flexDirection: 'row' }}>
+                <Text>Coming soon</Text>
+                {/* <View style={{ flexDirection: 'row' }}>
                     <View style={{ width: 50, backgroundColor: 'red', marginHorizontal: 5, height: 50 }}></View>
                     <View style={{ width: 50, backgroundColor: 'red', marginHorizontal: 5, height: 50 }}></View>
                     <View style={{ width: 50, backgroundColor: 'red', marginHorizontal: 5, height: 50 }}></View>
                     <View style={{ width: 50, backgroundColor: 'red', marginHorizontal: 5, height: 50 }}></View>
-                </View>
+                </View> */}
             </View>
             <View style={{ marginVertical: 10 }}>
                 <Text style={{ fontWeight: 'bold' }}>Bounty:</Text>
                 <View>
-                    <Text style={{}}>No bounty set</Text>
+                    <Text style={{}}>Coming soon</Text>
                 </View>
             </View>
             <View style={{ marginVertical: 10 }}>
-                <Text style={{ fontWeight: 'bold' }}>Solution:</Text>
+                <Text style={{ fontWeight: 'bold' }}>Quick Solution:</Text>
+                <Text style={{}}>Coming soon</Text>
 
             </View>
         </ScrollView>
